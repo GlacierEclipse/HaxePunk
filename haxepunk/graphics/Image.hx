@@ -36,6 +36,20 @@ class Image extends Graphic
 	public var scaleY:Float;
 
 	/**
+	 * Flips the image horizontally.
+	 */
+	public var flipX:Bool = false;
+
+	/**
+	 * Flips the image vertically.
+	 */
+	public var flipY:Bool = false;
+
+	public var flipped(get, set):Bool;
+	inline function get_flipped() return flipX;
+	inline function set_flipped(v:Bool) return flipX = v;
+
+	/**
 	 * Constructor.
 	 * @param	source		Source image.
 	 * @param	clipRect	Optional rectangle defining area of the source image to draw.
@@ -77,13 +91,15 @@ class Image extends Graphic
 	@:dox(hide)
 	override public function render(point:Vector2, camera:Camera)
 	{
-		var sx = scale * scaleX,
-			sy = scale * scaleY,
+		var sx = scale * scaleX * (flipX ? -1 : 1),
+			sy = scale * scaleY * (flipY ? -1 : 1),
 			fsx = camera.screenScaleX,
 			fsy = camera.screenScaleY;
 
-		var x = floorX(camera, x);
-		var y = floorY(camera, y);
+		var x = floorX(camera, x),
+			y = floorY(camera, y);
+		if (flipX) x += floorX(camera, (originX * 2 - _region.width) * sx);
+		if (flipY) y += floorY(camera, (originY * 2 - _region.height) * sy);
 
 		if (angle == 0)
 		{
@@ -200,14 +216,14 @@ class Image extends Graphic
 	/**
 	 * The scaled width of the image.
 	 */
-	public var scaledWidth(get, set_scaledWidth):Float;
+	public var scaledWidth(get, set):Float;
 	inline function get_scaledWidth():Float return width * scaleX * scale;
 	inline function set_scaledWidth(w:Float):Float return scaleX = w / scale / width;
 
 	/**
 	 * The scaled height of the image.
 	 */
-	public var scaledHeight(get, set_scaledHeight):Float;
+	public var scaledHeight(get, set):Float;
 	inline function get_scaledHeight():Float return height * scaleY * scale;
 	inline function set_scaledHeight(h:Float):Float return scaleY = h / scale / height;
 
