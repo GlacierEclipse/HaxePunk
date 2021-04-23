@@ -236,6 +236,14 @@ class Image extends Graphic
 
 	override public function toString():String return '[$_class $width x $height]';
 
+	public function setClipRect(clipRect:Rectangle) 
+	{
+		if (clipRect.width == 0) clipRect.width = _sourceRect.width;
+		if (clipRect.height == 0) clipRect.height = _sourceRect.height;
+		_region = _region.clip(clipRect); // create a new clipped region
+		_sourceRect = clipRect;
+	}
+
 	// Source and buffer information.
 	var _sourceRect:Rectangle;
 	var _region:IAtlasRegion;
