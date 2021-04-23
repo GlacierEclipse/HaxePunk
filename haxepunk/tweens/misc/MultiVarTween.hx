@@ -29,7 +29,7 @@ class MultiVarTween extends Tween
 	 * @param	duration	Duration of the tween.
 	 * @param	ease		Optional easer function.
 	 */
-	public function tween(object:Dynamic, properties:Dynamic, duration:Float, ?ease:EaseFunction)
+	public function tween(object:Dynamic, properties:Dynamic, duration:Float, ?ease:EaseFunction, ?startTween:Bool)
 	{
 		_object = object;
 		HXP.clear(_vars);
@@ -61,7 +61,9 @@ class MultiVarTween extends Tween
 			_start.push(a);
 			_range.push(Reflect.field(properties, p) - a);
 		}
-		start();
+
+		if(startTween != null && startTween)
+			start();
 	}
 
 	/** @private Updates the Tween. */

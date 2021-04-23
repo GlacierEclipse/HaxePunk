@@ -62,18 +62,23 @@ class Tween
 	 */
 	public function new(duration:Float, ?type:TweenType, ?complete:Void->Void, ?ease:EaseFunction)
 	{
+		initTween(duration, ease);
+		_type = type == null ? TweenType.Persist : type;
+		if (complete != null)
+		{
+			onComplete.bind(complete);
+		}
+	}
+
+	public function initTween(duration:Float, ?ease:EaseFunction)
+	{
 		if (duration < 0)
 		{
 			throw "Tween duration must be positive!";
 		}
 		_target = duration;
-		_type = type == null ? TweenType.Persist : type;
 		_ease = ease;
 		_t = 0;
-		if (complete != null)
-		{
-			onComplete.bind(complete);
-		}
 	}
 
 	/** @private Update function for override in subclasses */
@@ -171,7 +176,11 @@ class Tween
 	var _t:Float;
 
 	var _time:Float = 0;
+
 	var _target:Float;
+	public var tweenDuration(get, null):Float;
+	function get_tweenDuration():Float return _target;
+	
 
 	var _parent:Tweener;
 	var _prev:Tween;
