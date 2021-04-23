@@ -97,6 +97,12 @@ class Spritemap extends Image
 	private function get_rows():Int return _rows;
 
 	/**
+	 * The source image.
+	 */
+	public var sourceSpriteImage(get, null):TileType;
+	private function get_sourceSpriteImage():TileType return _sourceSpriteImage;
+
+	/**
 	 * Constructor.
 	 * @param	source			Source image.
 	 * @param	frameWidth		Frame width.
@@ -125,6 +131,7 @@ class Spritemap extends Image
 		_frameCount = _columns * _rows;
 		frame = 0;
 		active = true;
+		_sourceImage = source;
 	}
 
 	/** @private Updates the animation. */
@@ -381,4 +388,5 @@ class Spritemap extends Image
 	var _columns:Int;
 	var _rows:Int;
 	var _frameCount:Int;
+	var _sourceSpriteImage:TileType;
 }

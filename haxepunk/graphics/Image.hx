@@ -50,6 +50,12 @@ class Image extends Graphic
 	inline function set_flipped(v:Bool) return flipX = v;
 
 	/**
+	 * The source image.
+	 */
+	 public var sourceImage(get, null):ImageType;
+	 private function get_sourceImage():ImageType return _sourceImage;
+
+	/**
 	 * Constructor.
 	 * @param	source		Source image.
 	 * @param	clipRect	Optional rectangle defining area of the source image to draw.
@@ -66,6 +72,7 @@ class Image extends Graphic
 			_region = source;
 			_sourceRect.width = _region.width;
 			_sourceRect.height = _region.height;
+			_sourceImage = source;
 		}
 
 		if (clipRect != null)
@@ -232,4 +239,6 @@ class Image extends Graphic
 	// Source and buffer information.
 	var _sourceRect:Rectangle;
 	var _region:IAtlasRegion;
+
+	var _sourceImage:ImageType;
 }

@@ -1,5 +1,6 @@
 package haxepunk;
 
+import haxepunk.graphics.GraphicColorMask;
 import haxe.ds.Either.Left;
 import haxe.ds.Either.Right;
 import haxepunk.Signal.Signal0;
@@ -134,6 +135,10 @@ class Entity extends Tweener
 	public var preUpdate:Signal0 = new Signal0();
 	public var postUpdate:Signal0 = new Signal0();
 
+	public var velocity:Vector2 = new Vector2(0, 0);
+
+	public var graphicColorMask:GraphicColorMask;
+
 	/**
 	 * Constructor. Can be used to place the Entity and assign a graphic and mask.
 	 * @param	x			X position to place the Entity.
@@ -161,6 +166,8 @@ class Entity extends Tweener
 		if (mask != null) this.mask = mask;
 		HITBOX.parent = this;
 		_class = Type.getClassName(Type.getClass(this));
+
+		graphicColorMask = new GraphicColorMask(this);
 	}
 
 	/**
