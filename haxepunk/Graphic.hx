@@ -223,16 +223,6 @@ class Graphic
 	}
 
 	/**
-	 * Indicates whether the graphic should be tinted or fully colorized.
-	 */
-	public var colorize(default, set):Bool = false;
-	function set_colorize(value:Bool):Bool
-	{
-		shader.setVertexAttribData("aColorize", [value ? 1.0 : 0.0], 1);
-		return value;
-	}
-
-	/**
 	 * If the graphic should render at its position relative to its parent Entity's position.
 	 */
 	public var relative:Bool = true;
@@ -270,7 +260,6 @@ class Graphic
 		pixelSnapping = pixelSnappingDefault;
 		color = Color.White;
 		shader = TextureShader.defaultShader;
-		shader.setVertexAttribData("aColorize", [0.0], 1);
 		_class = Type.getClassName(Type.getClass(this));
 	}
 
