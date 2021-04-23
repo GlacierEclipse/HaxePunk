@@ -36,14 +36,11 @@ class GraphicColorMask
         else if(graphicType == GraphicTypes.Spritemap)
             graphic = new Spritemap(sourcePath, cast(entity.graphic, Spritemap).width, cast(entity.graphic, Spritemap).height);
 
-        
-
         graphic.shader = TextureShader.defaultColorizedShader;
         entity.addGraphic(graphic);
         alphaTween.tween(graphic, {alpha: 0.0}, 1.0);
 
         graphic.alpha = 0.0;
-        //graphic.smooth = true;
     }
 
     public function startMask(duration:Float, color:Color = 0xFF0000)
