@@ -13,13 +13,16 @@ precision mediump float;
 attribute vec4 aPosition;
 attribute vec2 aTexCoord;
 attribute vec4 aColor;
+attribute float aColorize;
 varying vec2 vTexCoord;
 varying vec4 vColor;
+varying float vColorize;
 uniform mat4 uMatrix;
 
 void main(void) {
 	vColor = vec4(aColor.bgr * aColor.a, aColor.a);
 	vTexCoord = aTexCoord;
+	vColorize = aColorize;
 	gl_Position = uMatrix * aPosition;
 }";
 
@@ -30,6 +33,7 @@ precision mediump float;
 #endif
 
 varying vec4 vColor;
+varying float vColorize;
 varying vec2 vTexCoord;
 uniform sampler2D uImage0;
 
@@ -38,7 +42,7 @@ void main(void) {
 	if (color.a == 0.0) {
 		gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
 	} else {
-		gl_FragColor = color * vColor;
+		gl_FragColor = mix(color * vColor, vColor, vColorize);
 	}
 }";
 
