@@ -139,6 +139,15 @@ class Entity extends Tweener
 
 	public var graphicColorMask:GraphicColorMask;
 
+	public function initGraphicColorMask()
+	{
+		if(graphic != null)
+		{
+			graphicColorMask = new GraphicColorMask(this);
+		}
+	}
+
+
 	/**
 	 * Constructor. Can be used to place the Entity and assign a graphic and mask.
 	 * @param	x			X position to place the Entity.
@@ -166,8 +175,6 @@ class Entity extends Tweener
 		if (mask != null) this.mask = mask;
 		HITBOX.parent = this;
 		_class = Type.getClassName(Type.getClass(this));
-
-		graphicColorMask = new GraphicColorMask(this);
 	}
 
 	/**
@@ -199,7 +206,11 @@ class Entity extends Tweener
 	/**
 	 * Updates the Entity.
 	 */
-	override public function update():Void {}
+	override public function update():Void 
+	{
+		if(graphicColorMask != null)
+			graphicColorMask.update();
+	}
 
 	/**
 	 * Renders the Entity. If you override this for special behaviour,

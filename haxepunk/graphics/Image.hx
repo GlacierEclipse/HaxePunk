@@ -81,6 +81,7 @@ class Image extends Graphic
 			if (clipRect.height == 0) clipRect.height = _sourceRect.height;
 			_region = _region.clip(clipRect); // create a new clipped region
 			_sourceRect = clipRect;
+			this.clipRect = clipRect;
 		}
 	}
 

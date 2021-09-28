@@ -42,6 +42,28 @@ void main(void) {
 	}
 }";
 
+static var VERTEX_SHADER_COLORIZE =
+"// HaxePunk texture vertex shader
+#ifdef GL_ES
+precision mediump float;
+#endif
+
+attribute vec4 aPosition;
+attribute vec2 aTexCoord;
+attribute vec4 aColor;
+attribute float aMaskAlpha;
+varying vec2 vTexCoord;
+varying vec4 vColor;
+varying float vMaskAlpha;
+uniform mat4 uMatrix;
+
+void main(void) {
+	vColor = vec4(aColor.bgr * aColor.a, aColor.a);
+	vTexCoord = aTexCoord;
+	vMaskAlpha = aMaskAlpha;
+	gl_Position = uMatrix * aPosition;
+}";
+
 static var FRAGMENT_SHADER_COLORIZE =
 "// HaxePunk texture fragment shader
 #ifdef GL_ES
@@ -50,6 +72,7 @@ precision mediump float;
 
 varying vec4 vColor;
 varying vec2 vTexCoord;
+varying float vMaskAlpha;
 uniform sampler2D uImage0;
 
 void main(void) {
@@ -57,9 +80,11 @@ void main(void) {
 	if (color.a == 0.0) {
 		gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
 	} else {
-		gl_FragColor = vec4(vColor.rgb, color.a);
+		gl_FragColor = mix(color * vColor.a, vColor.a, vMaskAlpha);
 	}
 }";
+
+public static var defaultMaskAlphaAttribName:String = "aMaskAlpha";
 
 	#if (lime || nme)
 	/**
@@ -89,7 +114,9 @@ void main(void) {
 	public static var defaultColorizedShader(get, null):TextureShader;
 	static inline function get_defaultColorizedShader():TextureShader
 	{
-		if (defaultColorizedShader == null) defaultColorizedShader = new TextureShader(VERTEX_SHADER, FRAGMENT_SHADER_COLORIZE);
+		if (defaultColorizedShader == null) 
+			defaultColorizedShader = new TextureShader(VERTEX_SHADER_COLORIZE, FRAGMENT_SHADER_COLORIZE);
+		defaultColorizedShader.setVertexAttribData(defaultMaskAlphaAttribName, [0.0], 1);
 		return defaultColorizedShader;
 	}
 }
