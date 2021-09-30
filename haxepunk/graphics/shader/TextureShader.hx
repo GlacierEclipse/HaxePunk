@@ -52,6 +52,7 @@ attribute vec4 aPosition;
 attribute vec2 aTexCoord;
 attribute vec4 aColor;
 attribute float aMaskAlpha;
+
 varying vec2 vTexCoord;
 varying vec4 vColor;
 varying float vMaskAlpha;
@@ -73,6 +74,7 @@ precision mediump float;
 varying vec4 vColor;
 varying vec2 vTexCoord;
 varying float vMaskAlpha;
+
 uniform sampler2D uImage0;
 
 void main(void) {
@@ -80,7 +82,7 @@ void main(void) {
 	if (color.a == 0.0) {
 		gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
 	} else {
-		gl_FragColor = mix(color * vColor.a, vColor.a, vMaskAlpha);
+		gl_FragColor = mix(color * vColor.a, vColor, vMaskAlpha);
 	}
 }";
 
