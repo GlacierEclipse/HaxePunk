@@ -119,13 +119,15 @@ class ParticleType
 	 * @param	start		The starting scale.
 	 * @param	finish		The finish sale.
 	 * @param	ease		Optional easer function.
+	 * @param	scaleRange	Random amount to add to the particle's starting scale.
 	 * @return	This ParticleType object.
 	 */
-	public function setScale(start:Float = 1, finish:Float = 0, ?ease:EaseFunction):ParticleType
+	public function setScale(start:Float = 1, finish:Float = 0, scaleRange:Float = 0, ?ease:EaseFunction):ParticleType
 	{
 		_scale = start;
-		_scaleRange = finish - start;
+		_scaleRange = scaleRange;
 		_scaleEase = ease;
+		_scaleFinish = finish;
 		return this;
 	}
 
@@ -210,6 +212,7 @@ class ParticleType
 	// Scale information.
 	var _scale:Float;
 	var _scaleRange:Float;
+	var _scaleFinish:Float;
 	var _scaleEase:EaseFunction;
 
 	// Rotation information.

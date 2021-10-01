@@ -39,7 +39,7 @@ class Particle
 
 	public function scale(td:Float):Float
 	{
-		return _type._scale + _type._scaleRange * td;
+		return _scale + (_scaleRange) * td;
 	}
 
 	public function new() {}
@@ -64,6 +64,10 @@ class Particle
 
 	// Gravity information.
 	var _gravity:Float = 0;
+
+	// Scale information
+	var _scale:Float = 0;
+	var _scaleRange:Float = 0;
 
 	// List information.
 	var _prev:Particle;

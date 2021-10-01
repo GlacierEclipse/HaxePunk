@@ -168,6 +168,20 @@ import haxepunk.math.Vector2;
 		originX = originY = 0;
 	}
 
+	public function getType(name:String):ParticleType
+	{
+		var pt:ParticleType = _types.get(name);
+		return pt;
+	}
+
+	public function isTypeExists(name:String):Bool
+	{
+		var pt:ParticleType = _types.get(name);
+		if (pt != null)
+			return true;
+		return false;
+	}
+
 	/**
 	 * Creates a new Particle type for this Emitter.
 	 * @param	name		Name of the particle type.
@@ -217,6 +231,8 @@ import haxepunk.math.Vector2;
 		if (p._next != null) p._next._prev = p;
 
 		p._type = type;
+		p._scale = type._scale + type._scaleRange * Random.random;
+		p._scaleRange = (type._scaleFinish - p._scale);
 		p._time = 0;
 		p._duration = type._duration + type._durationRange * Random.random;
 		p._stopTime = p._duration;
@@ -236,6 +252,26 @@ import haxepunk.math.Vector2;
 	}
 
 	/**
+	 * Emits a particle.
+	 * @param	name			Particle type to emit.
+	 * @param	amount			Amount of particles to emit.
+	 * @param	x				X point to emit from.
+	 * @param	y				Y point to emit from.
+	 * @param	angle			Base angle to start from.
+	 * @param	outParticles	Array of particles to push the new emitted ones.
+	 * @return	The Particle emited.
+	 */
+	public function emitAmount(name:String, amount:Int, x:Float = 0, y:Float = 0, angle:Float = 0, ?outParticles:Array<Particle>):Void
+	{
+		for (i in 0...amount)
+		{
+			var particle = emit(name, x, y, angle);
+			if(outParticles != null)
+				outParticles.push(particle);
+		}
+	}
+
+	/**
 	 * Randomly emits the particle inside the specified radius
 	 * @param	name		Particle type to emit.
 	 * @param	x			X point to emit from.
@@ -252,6 +288,27 @@ import haxepunk.math.Vector2;
 	}
 
 	/**
+	 * Randomly emits the particle inside the specified radius
+	 * @param	name		Particle type to emit.
+	 * @param	x			X point to emit from.
+	 * @param	y			Y point to emit from.
+	 * @param	radius		Radius to emit inside.
+	 * @param	amount			Amount of particles to emit.
+	 * @param	outParticles	Array of particles to push the new emitted ones.
+	 *
+	 * @return The Particle emited.
+	 */
+	 public function emitInCircleAmount(name:String, x:Float, y:Float, radius:Float, amount:Int, ?outParticles:Array<Particle>):Void
+	{
+		for (i in 0...amount)
+		{
+			var particle = emitInCircle(name, x, y, radius);
+			if(outParticles != null)
+				outParticles.push(particle);
+		}
+	}
+
+	/**
 	 * Randomly emits the particle inside the specified area
 	 * @param	name		Particle type to emit
 	 * @param	x			X point to emit from.
@@ -264,6 +321,28 @@ import haxepunk.math.Vector2;
 	public function emitInRectangle(name:String, x:Float, y:Float, width:Float, height:Float):Particle
 	{
 		return emit(name, x + Random.random * width, y + Random.random * height);
+	}
+
+	/**
+	 * Randomly emits the particle inside the specified area
+	 * @param	name			Particle type to emit
+	 * @param	x				X point to emit from.
+	 * @param	y				Y point to emit from.
+	 * @param	width			Width of the area to emit from.
+	 * @param	height			height of the area to emit from.
+	 * @param	amount			Amount of particles to emit.
+	 * @param	outParticles	Array of particles to push the new emitted ones.
+	 *
+	 * @return The Particle emited.
+	 */
+	public function emitInRectangleAmount(name:String, x:Float, y:Float, width:Float, height:Float, amount:Int, ?outParticles:Array<Particle>):Void
+	{
+		for (i in 0...amount)
+		{
+			var particle = emitInRectangle(name, x, y, width, height);
+			if(outParticles != null)
+				outParticles.push(particle);
+		}
 	}
 
 	/**
