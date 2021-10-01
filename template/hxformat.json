@@ -1,0 +1,14 @@
+{
+    "lineEnds": {
+        "blockCurly": {
+            "leftCurly": "both"
+        }
+    },
+    "sameLine": {
+        "elseIf": "keep",
+        "ifElse": "keep"
+    },
+    "emptyLines": {
+        "maxAnywhereInFile": 5
+    }
+}
