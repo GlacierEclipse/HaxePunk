@@ -5,7 +5,7 @@ import sys.io.File;
 import sys.io.FileInput;
 import sys.io.FileOutput;
 import haxe.io.Path;
-import haxe.zip.Reader;
+//import haxe.zip.Reader;
 
 class Project
 {
@@ -89,25 +89,71 @@ class Project
 	{
 		path = createDirectory(path);
 
-		var template = Path.normalize(Path.join([ Path.directory(neko.vm.Module.local().name), "template.zip" ]));
+		var templatePath = Path.normalize(Path.join([ Path.directory(neko.vm.Module.local().name), "template" ]));
 
 		if (FileSystem.isDirectory(path))
 		{
-			// read the template zip file
-			var templateZip = File.read(template, true);
-			var entries = Reader.readZip(templateZip);
-			templateZip.close();
+			var fullPath = FileSystem.absolutePath(path);
+			// Copy the files from template to the specfied path.
+			
+			
+			var templatePathWin = StringTools.replace(templatePath, "/", "\\");
+			var fullPathWin = StringTools.replace(fullPath, "/", "\\");
+			CLI.print("Running xcopy " + templatePathWin + " " + fullPathWin + " " + "/e /y /q");
+			Sys.command("xcopy", [templatePathWin, fullPathWin, "/e", "/y", "/q"]);
 
-			// unzip the file
-			for (entry in entries)
+			// read the template zip file
+			var arrFiles:Array<String> = readDirectoryDeep(fullPath);
+			
+			for (entry in arrFiles)
 			{
-				var filename:String = entry.fileName;
+				var filePath:String = entry;
+				var fileName:String = Path.withoutDirectory(filePath);
+
+
+
+				// Read it in bytes
+				var bytes:Bytes = File.getBytes(filePath);
+
+				// Delete the original file as it might have been renamed and changed, the file gets written at the end.
+				FileSystem.deleteFile(filePath);
 
 				// Ignore files and folders starting with an underscore '_' not in the white list
-				if (StringTools.startsWith(filename, "_") && whiteList.indexOf(filename) == -1)
+				if (StringTools.startsWith(fileName, "_") && whiteList.indexOf(fileName) == -1)
 				{
+					CLI.print("Skipping: " + fileName);
 					continue;
 				}
+
+
+
+				if (StringTools.endsWith(filePath, ".hx") || StringTools.endsWith(filePath, ".xml"))
+				{
+					var text:String = new BytesInput(bytes).readString(bytes.length);
+
+					text = replaceTemplateVars(text);
+
+					bytes = Bytes.ofString(text);
+				}
+
+
+
+				filePath = replaceTemplateVars(filePath);
+
+				// White list file
+				if (StringTools.startsWith(filePath, "_"))
+				{
+					filePath = filePath.substr(1);
+				}
+
+				CLI.print(filePath);
+
+				var fout:FileOutput = File.write(filePath, true);
+				fout.writeBytes(bytes, 0, bytes.length);
+				fout.close();
+					
+				/*
+
 
 				// check if it's a folder
 				if (StringTools.endsWith(filename, "/") || StringTools.endsWith(filename, "\\"))
@@ -117,9 +163,10 @@ class Project
 					createDirectory(path + "/" + filename);
 				}
 				else
-				{
-					// create the file
-					var bytes:Bytes = Reader.unzip(entry);
+				{*/
+					// Read it in bytes
+					/*
+					var bytes:Bytes = 
 
 					if (StringTools.endsWith(filename, ".hx") || StringTools.endsWith(filename, ".xml"))
 					{
@@ -143,13 +190,40 @@ class Project
 					var fout:FileOutput = File.write(path + "/" + filename, true);
 					fout.writeBytes(bytes, 0, bytes.length);
 					fout.close();
-				}
+					*/
+				//}
 			}
 		}
 		else
 		{
 			throw "You must provide a directory";
 		}
+	}
+
+	function readDirectoryDeep(path:String) : Array<String>
+	{
+		var arrFullPaths:Array<String> = new Array<String>();
+
+
+		if (FileSystem.isDirectory(path))
+		{
+			var arrFilesPath:Array<String> = FileSystem.readDirectory(path);
+			
+			for (filePath in arrFilesPath)
+			{
+				var fullFilePath:String = Path.join([path, filePath]);
+				// Push the file, not a directory
+				if (!FileSystem.isDirectory(fullFilePath))
+				{
+					arrFullPaths.push(fullFilePath);
+				}
+				else
+					arrFullPaths = arrFullPaths.concat(readDirectoryDeep(fullFilePath));
+			}
+		}
+
+		return arrFullPaths;
+
 	}
 
 	/**
