@@ -46,6 +46,26 @@ class Random
 		return Std.int(random * amount);
 	}
 
+	/**
+	 * Returns a pseudo-random bool.
+	 * @param	amount		The returned bool is either true or false 50% chance.
+	 * @return	The Int.
+	 */
+	public static inline function randBool():Bool
+	{
+		return randInt(2) == 0 ? true : false;
+	}
+
+	/**
+	 * Returns a pseudo-random Float.
+	 * @param	amount		The returned Int will always be 0 <= Float < amount.
+	 * @return	The Int.
+	 */
+	public static inline function randFloat(amount:Float):Float
+	{
+		return random * amount;
+	}
+
 	// Pseudo-random number generation (the seed is set in Engine's contructor).
 	static var _seed:Int = 0;
 }

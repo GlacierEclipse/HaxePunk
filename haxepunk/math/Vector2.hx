@@ -54,6 +54,16 @@ abstract Vector2(Position) from Position to Position
 	}
 
 	/**
+	 * Sets the internal x, y values.
+	 **/
+	public inline function setToZero():Vector2
+	{
+		this.x = 0;
+		this.y = 0;
+		return this;
+	}
+
+	/**
 	 * Converts this vector to it's perpendicular counterpart.
 	 **/
 	public inline function perpendicular():Vector2
