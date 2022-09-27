@@ -214,6 +214,15 @@ class Graphic
 	}
 
 	/**
+	 * Change the opacity of the Image, a value from 0 to 1.
+	 */
+	public var maskAlpha(default, set):Float = 0;
+	function set_maskAlpha(value:Float):Float
+	{
+		return maskAlpha = value;
+	}
+
+	/**
 	 * The tinted color of the Image. Use 0xFFFFFF to draw the Image normally.
 	 */
 	public var color(default, set):Color;

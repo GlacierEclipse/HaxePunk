@@ -23,8 +23,6 @@ class GraphicColorMask
 
     public function new(entity:Entity) 
     {
-        
-        entity.graphic.shader = TextureShader.defaultColorizedShader;
         alphaTween = new NumTween(TweenType.Persist);
         
 
@@ -43,9 +41,19 @@ class GraphicColorMask
         alphaTween.start();
     }
 
+    public function startMaskOnce(duration:Float, color:Color = 0xFF0000)
+    {
+        if(alphaTween.active)
+            return;
+        entity.graphic.color = color;
+        if(duration != alphaTween.tweenDuration)
+            alphaTween.tween(1.0, 0.0, duration);
+        alphaTween.start();
+    }
+
     public function update() 
     {
-        entity.graphic.shader.setVertexAttribData(TextureShader.defaultMaskAlphaAttribName, [alphaTween.value], 1);
+        entity.graphic.maskAlpha = alphaTween.value;
     }
 
     
