@@ -23,7 +23,7 @@ class DebugButton extends Entity
 		type = mouseManager.type;
 		mouseManager.add(this, null, onPress, onEnter, onExit);
 
-		width = height = 64;
+		width = height = 32;
 	}
 
 	override public function update()

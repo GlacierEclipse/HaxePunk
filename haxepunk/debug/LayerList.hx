@@ -61,7 +61,7 @@ class LayerList extends EntityList<LayerToggle>
 	{
 		super();
 		this.mouseManager = mouseManager;
-		width = 240;
+		width = 120;
 		height = 320;
 
 		sceneLabel = new BitmapText("Scene", {size: 12});
