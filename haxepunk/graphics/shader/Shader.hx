@@ -60,7 +60,7 @@ class Shader
 	public var floatsPerVertex(get, never):Int;
 	function get_floatsPerVertex():Int
 	{
-		var a = 2 + (texCoord.isEnabled ? 2 : 0) + (color.isEnabled ? 1 : 0);
+		var a = 2 + (texCoord.isEnabled ? 2 : 0) + (color.isEnabled ? 1 : 0) + (maskAlpha.isEnabled ? 1 : 0);
 		for (v in attributes.iterator())
 			if (v.isEnabled)
 				a += v.valuesPerElement;
@@ -76,6 +76,7 @@ class Shader
 	public var position:Attribute;
 	public var texCoord:Attribute;
 	public var color:Attribute;
+	public var maskAlpha:Attribute;
 
 	public var hasAttributes(get, never):Bool;
 	inline function get_hasAttributes() : Bool
@@ -93,6 +94,7 @@ class Shader
 		position = new Attribute(this);
 		texCoord = new Attribute(this);
 		color = new Attribute(this);
+		maskAlpha = new Attribute(this);
 		this.vertexSource = vertexSource;
 		this.fragmentSource = fragmentSource;
 #if !unit_test
@@ -121,6 +123,7 @@ class Shader
 		position.rebind();
 		texCoord.rebind();
 		color.rebind();
+		maskAlpha.rebind();
 		for (v in attributes.iterator())
 			v.rebind();
 	}
@@ -185,7 +188,7 @@ class Shader
 	{
 		var offset:Int = 0;
 		// var stride:Int = floatsPerVertex * Float32Array.BYTES_PER_ELEMENT;
-		var stride:Int = (2 + (texCoord.isEnabled ? 2 : 0) + (color.isEnabled ? 1 : 0)) * Float32Array.BYTES_PER_ELEMENT;
+		var stride:Int = (2 + (texCoord.isEnabled ? 2 : 0) + (color.isEnabled ? 1 : 0) + (maskAlpha.isEnabled ? 1 : 0)) * Float32Array.BYTES_PER_ELEMENT;
 		GL.vertexAttribPointer(position.index, 2, GL.FLOAT, false, stride, offset);
 		offset += 2 * Float32Array.BYTES_PER_ELEMENT;
 
@@ -198,6 +201,12 @@ class Shader
 		if (color.isEnabled)
 		{
 			GL.vertexAttribPointer(color.index, 4, GL.UNSIGNED_BYTE, true, stride, offset);
+			offset += 1 * Float32Array.BYTES_PER_ELEMENT;
+		}
+
+		if (maskAlpha.isEnabled)
+		{
+			GL.vertexAttribPointer(maskAlpha.index, 1, GL.FLOAT, false, stride, offset);
 			offset += 1 * Float32Array.BYTES_PER_ELEMENT;
 		}
 
@@ -235,6 +244,7 @@ class Shader
 		GL.enableVertexAttribArray(position.index);
 		if (texCoord.isEnabled) GL.enableVertexAttribArray(texCoord.index);
 		if (color.isEnabled) GL.enableVertexAttribArray(color.index);
+		if (maskAlpha.isEnabled) GL.enableVertexAttribArray(maskAlpha.index);
 		for (n in attributeNames)
 			if (attributes[n].isEnabled)
 				GL.enableVertexAttribArray(attributes[n].index);
@@ -248,6 +258,7 @@ class Shader
 		GL.disableVertexAttribArray(position.index);
 		if (texCoord.isEnabled) GL.disableVertexAttribArray(texCoord.index);
 		if (color.isEnabled) GL.disableVertexAttribArray(color.index);
+		if (maskAlpha.isEnabled) GL.disableVertexAttribArray(maskAlpha.index);
 		for (n in attributeNames)
 			if (attributes[n].isEnabled)
 				GL.disableVertexAttribArray(attributes[n].index);

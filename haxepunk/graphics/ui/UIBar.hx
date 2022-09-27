@@ -35,6 +35,5 @@ class UIBar extends Entity
         super.update();
         var clipWidth:Int = Std.int(MathUtil.scaleClamp(fill, 0, 100, 0, barWidth));
         clipRect.setTo(0, 0, clipWidth, barHeight);
-        imageFilled.setClipRect(clipRect);
     }
 }

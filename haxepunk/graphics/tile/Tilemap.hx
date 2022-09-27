@@ -488,7 +488,7 @@ class Tilemap extends Graphic
 		region.draw(
 			x, y,
 			scx, scy, 0,
-			color, alpha,
+			color, alpha, 0.0,
 			shader, smooth, blend
 		);
 	}

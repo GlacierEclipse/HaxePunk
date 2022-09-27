@@ -104,12 +104,17 @@ public static var defaultMaskAlphaAttribName:String = "aMaskAlpha";
 		position.name = "aPosition";
 		texCoord.name = "aTexCoord";
 		color.name = "aColor";
+		maskAlpha.name = "aMaskAlpha";
 	}
 
 	public static var defaultShader(get, null):TextureShader;
 	static inline function get_defaultShader():TextureShader
 	{
-		if (defaultShader == null) defaultShader = new TextureShader();
+		//if (defaultShader == null) defaultShader = new TextureShader();
+		//return defaultShader;
+
+		if (defaultShader == null) 
+			defaultShader = new TextureShader(VERTEX_SHADER_COLORIZE, FRAGMENT_SHADER_COLORIZE);
 		return defaultShader;
 	}
 
@@ -118,7 +123,6 @@ public static var defaultMaskAlphaAttribName:String = "aMaskAlpha";
 	{
 		if (defaultColorizedShader == null) 
 			defaultColorizedShader = new TextureShader(VERTEX_SHADER_COLORIZE, FRAGMENT_SHADER_COLORIZE);
-		defaultColorizedShader.setVertexAttribData(defaultMaskAlphaAttribName, [0.0], 1);
 		return defaultColorizedShader;
 	}
 }
