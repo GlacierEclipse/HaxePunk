@@ -226,6 +226,9 @@ class BitmapFontAtlas extends TextureAtlas implements IBitmapFont
 			texture.removeColor(options.glyphBGColor);
 		}
 
+		texture.removeColor(0xFF202020);
+		
+
 		return atlas;
 	}
 
