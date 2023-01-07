@@ -253,7 +253,7 @@ class Tilemap extends Graphic
 	* @param columnSep		The string that separates each tile value on a row, default is ",".
 	* @param rowSep			The string that separates each row of tiles, default is "\n".
 	*/
-	public function loadFromString(str:String, columnSep:String = ",", rowSep:String = "\n")
+	public function loadFromString(str:String, columnSep:String = ",", rowSep:String = "\n", tileIndexOffset:Int = 0)
 	{
 		var row:Array<String> = str.split(rowSep),
 			rows:Int = row.length,
@@ -267,11 +267,20 @@ class Tilemap extends Graphic
 			{
 				if (col[x] != '')
 				{
-					setTile(x, y, Std.parseInt(col[x]));
+					setTile(x, y, Std.parseInt(col[x]) + tileIndexOffset);
 				}
 			}
 		}
 	}
+
+	public function loadFromStringTmx(str:String)
+	{
+		var strNew:String = str;
+		strNew = StringTools.replace(strNew, "\r", "");
+        strNew = strNew.substring(1, strNew.length - 1);
+        loadFromString(strNew, ",", "\n", -1);
+	}
+	
 
 	/**
 	* Saves the Tilemap tile index data to a string.

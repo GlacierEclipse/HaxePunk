@@ -82,7 +82,7 @@ void main(void) {
 	if (color.a == 0.0) {
 		gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
 	} else {
-		gl_FragColor = mix(color * vColor.a, vColor, vMaskAlpha);
+		gl_FragColor = mix(color * vColor, vColor, vMaskAlpha);
 	}
 }";
 

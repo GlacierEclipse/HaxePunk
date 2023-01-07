@@ -65,6 +65,12 @@ class MathUtil
 		return a + (b - a) * t;
 	}
 
+	public static inline function lerpAngleDeg(a:Float, b:Float, t:Float = 1) : Float
+	{
+		var delta:Float = ((b - a + 360 + 180) % (360)) - 180;
+		return (a + delta * t + 360) % 360;
+	}
+
 	/**
 	 * Linear interpolation between two values. Result rounded to an integer.
 	 * @param	a		First value.

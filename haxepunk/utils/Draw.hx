@@ -81,7 +81,7 @@ class Draw
 	 */
 	public static function line(x1:Float, y1:Float, x2:Float, y2:Float)
 	{
-		instance.line(x1, y1, x2, y2);
+		instance.line(x1 * HXP.screen.scaleX, y1 * HXP.screen.scaleY, x2 * HXP.screen.scaleX, y2 * HXP.screen.scaleY);
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Draw
 	 */
 	public static inline function circle(x:Float, y:Float, radius:Float, segments:Int = 25, scaleX:Float = 1, scaleY:Float = 1)
 	{
-		instance.circle(x, y, radius, segments, scaleX, scaleY);
+		instance.circle(x * HXP.screen.scaleX, y * HXP.screen.scaleY, radius, segments, scaleX, scaleY);
 	}
 
 	/**
@@ -144,7 +144,7 @@ class Draw
 	 */
 	public static function circleFilled(x:Float, y:Float, radius:Float, segments:Int = 25, scaleX:Float = 1, scaleY:Float = 1)
 	{
-		instance.circleFilled(x, y, radius, segments, scaleX, scaleY);
+		instance.circleFilled(x * HXP.screen.scaleX, y * HXP.screen.scaleY, radius, segments, scaleX, scaleY);
 	}
 
 	/**
