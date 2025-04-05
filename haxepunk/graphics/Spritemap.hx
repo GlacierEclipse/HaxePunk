@@ -124,10 +124,10 @@ class Spritemap extends Image
 		_atlas.prepare(
 			frameWidth == 0 ? Std.int(_atlas.width) : frameWidth,
 			frameHeight == 0 ? Std.int(_atlas.height) : frameHeight,
-			0,
-			0,
 			frameSpacingX,
-			frameSpacingY
+			frameSpacingY,
+			0,
+			0
 		);
 
 		_columns = Math.ceil(_atlas.width / frameWidth);

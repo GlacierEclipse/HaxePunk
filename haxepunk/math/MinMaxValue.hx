@@ -25,6 +25,22 @@ class MinMaxValue
         currentValue = maxValue;
     }
 
+    public function isMinValue() : Bool
+    {
+        return currentValue == minValue;
+    }
+
+    public function isMaxValue() : Bool
+    {
+        return currentValue == maxValue;
+    }
+
+    public function updateWithElapsedTime()
+    {
+        currentValue -= HXP.elapsed;
+        clamp();
+    }
+
     public function clamp() 
     {
         currentValue = MathUtil.clamp(currentValue , minValue, maxValue);

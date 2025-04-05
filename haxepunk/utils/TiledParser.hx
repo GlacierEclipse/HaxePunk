@@ -59,6 +59,9 @@ class TiledParser
     // Object layers are stored here.
     public var mapObjectLayers:Map<String, TiledObjectGroup>;
 
+    public var mapWidthInTiles:Int;
+    public var mapHeightInTiles:Int;
+
     public function new(sourceTmx:String) 
     {
         map2DTileLayers = new Map<String, TiledTileLayer>();
@@ -67,6 +70,9 @@ class TiledParser
         var rootXml:Xml = Xml.parse(AssetCache.global.getText(sourceTmx));
 
         var xmlAccess:Access = new Access(rootXml.firstElement());
+
+        mapWidthInTiles = Std.parseInt(xmlAccess.att.width);
+        mapHeightInTiles = Std.parseInt(xmlAccess.att.height);
 
         // Tile Layers
         for (layer in xmlAccess.nodes.layer)
