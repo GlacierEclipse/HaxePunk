@@ -252,6 +252,31 @@ class Entity extends Tweener
 	}
 
 	/**
+	 * Checks for a collision against an Entity type using a sweeping technique.
+	 * @param	type		The Entity type to check for.
+	 * @param	x			Virtual x position to place this Entity.
+	 * @param	y			Virtual y position to place this Entity.
+	 * @return	The first Entity collided with, or null if none were collided.
+	 */
+	public function collideSweep(type:String, x:Float, y:Float, targetX:Float, targetY:Float, maxDistance:Float = 8, maxStepSize:Float = 10):Entity
+	{
+		var deltaX:Float = targetX - x;
+		var deltaY:Float = targetY - y;
+		var distance:Float = MathUtil.sqrt(deltaX * deltaX + deltaY * deltaY);
+		var maxSteps:Int = Std.int(MathUtil.clamp(Std.int(distance / maxDistance), 1, maxStepSize));
+
+		for(stepInd in 1...(maxSteps+1))
+		{
+			var newX:Float = x + deltaX * (stepInd / maxSteps);
+			var newY:Float = y + deltaY * (stepInd / maxSteps);
+			var entCollided:Entity = collide(type, newX, newY);
+			if(entCollided != null)
+				return entCollided;
+		}
+		return null;
+	}
+
+	/**
 	 * Checks for a collision against an Entity type.
 	 * @param	type		The Entity type to check for.
 	 * @param	x			Virtual x position to place this Entity.
