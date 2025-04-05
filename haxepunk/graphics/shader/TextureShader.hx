@@ -79,11 +79,9 @@ uniform sampler2D uImage0;
 
 void main(void) {
 	vec4 color = texture2D(uImage0, vTexCoord);
-	if (color.a == 0.0) {
-		gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
-	} else {
-		gl_FragColor = mix(color * vColor, vColor, vMaskAlpha);
-	}
+	if (color.a == 0.0)
+		discard;
+	gl_FragColor = mix(color, vColor * color.a, vMaskAlpha);
 }";
 
 public static var defaultMaskAlphaAttribName:String = "aMaskAlpha";

@@ -62,27 +62,30 @@ class Tilemap extends Graphic
 		super();
 
 		// load the tileset graphic
-		_atlas = tileset;
-
-		if (_atlas == null)
-			throw "Invalid tileset graphic provided.";
-
-		// prepare the tileset if needed
-		if (_atlas.tileWidth == 0 || _atlas.tileHeight == 0)
+		if(tileset != null)
 		{
-			if (tileWidth == null || tileHeight == null)
+			_atlas = tileset;
+
+			if (_atlas == null)
+				throw "Invalid tileset graphic provided.";
+		
+			// prepare the tileset if needed
+			if (_atlas.tileWidth == 0 || _atlas.tileHeight == 0)
 			{
-				throw "Invalid tileset graphic provided.\nThe tileset must be prepared or valid tile dimensions must be passed to the Tilemap constructor.";
+				if (tileWidth == null || tileHeight == null)
+				{
+					throw "Invalid tileset graphic provided.\nThe tileset must be prepared or valid tile dimensions must be passed to the Tilemap constructor.";
+				}
+				else
+				{
+					_atlas.prepare(tileWidth, tileHeight, tileMarginWidth, tileMarginHeight, tileOffsetX, tileOffsetY);
+				}
 			}
 			else
 			{
-				_atlas.prepare(tileWidth, tileHeight, tileMarginWidth, tileMarginHeight, tileOffsetX, tileOffsetY);
+				tileWidth = _atlas.tileWidth;
+				tileHeight = _atlas.tileHeight;
 			}
-		}
-		else
-		{
-			tileWidth = _atlas.tileWidth;
-			tileHeight = _atlas.tileHeight;
 		}
 
 		this.width = width - (width % tileWidth);
@@ -123,7 +126,8 @@ class Tilemap extends Graphic
 			column = Std.int(column / tileWidth);
 			row = Std.int(row / tileHeight);
 		}
-		if (index > -1) index %= tileCount;
+		if (_atlas != null)
+			if (index > -1) index %= tileCount;
 		column %= _columns;
 		row %= _rows;
 		_map[row][column] = index;
@@ -153,6 +157,9 @@ class Tilemap extends Graphic
 			column = Std.int(column / tileWidth);
 			row = Std.int(row / tileHeight);
 		}
+
+		if(row % _rows < 0 || column % _columns < 0)
+			return -1;
 		return _map[row % _rows][column % _columns];
 	}
 

@@ -16,7 +16,7 @@ class TextEntity extends Entity
         return currentText = value;
     }
 
-    public function new(x:Float, y:Float, initText:String, size:Int = 12) 
+    public function new(x:Float, y:Float, initText:String, size:Int = 12, scrollXY:Int = 1) 
     {
         super(x, y);
 
@@ -28,6 +28,7 @@ class TextEntity extends Entity
         textBitmap.smooth = false;
         graphic = textBitmap;
         graphic.smooth = false;
+        graphic.scrollX = graphic.scrollY = scrollXY;
     }
 
 }

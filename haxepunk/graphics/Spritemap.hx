@@ -108,7 +108,7 @@ class Spritemap extends Image
 	 * @param	frameWidth		Frame width.
 	 * @param	frameHeight		Frame height.
 	 */
-	public function new(source:TileType, frameWidth:Int = 0, frameHeight:Int = 0)
+	public function new(source:TileType, frameWidth:Int = 0, frameHeight:Int = 0, frameSpacingX:Int = 0, frameSpacingY:Int = 0)
 	{
 		_anims = new Map();
 
@@ -123,7 +123,11 @@ class Spritemap extends Image
 
 		_atlas.prepare(
 			frameWidth == 0 ? Std.int(_atlas.width) : frameWidth,
-			frameHeight == 0 ? Std.int(_atlas.height) : frameHeight
+			frameHeight == 0 ? Std.int(_atlas.height) : frameHeight,
+			0,
+			0,
+			frameSpacingX,
+			frameSpacingY
 		);
 
 		_columns = Math.ceil(_atlas.width / frameWidth);
@@ -131,7 +135,7 @@ class Spritemap extends Image
 		_frameCount = _columns * _rows;
 		frame = 0;
 		active = true;
-		_sourceImage = source;
+		_sourceImage = cast source;
 	}
 
 	/** @private Updates the animation. */
