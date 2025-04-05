@@ -204,9 +204,28 @@ class Graphic
 	 */
 	public var originY:Float = 0;
 
+	
+	/**
+	* Change the opacity of the Image, a value from 0 to 1.
+	*/
+	public var maskAlpha(default, set):Float = 0;
+	function set_maskAlpha(value:Float):Float
+	{
+	 	return maskAlpha = value;
+	}
+
+	/**
+	* The color of the Mask. Use 0xFFFFFF to draw the Mask normally.
+	*/
+	public var maskColor(default, set):Color;
+	function set_maskColor(value:Color):Color
+	{
+		return maskColor = value & 0xffffff;
+	}
+
 	/**
 	 * Change the opacity of the Image, a value from 0 to 1.
-	 */
+	*/
 	public var alpha(default, set):Float = 1;
 	function set_alpha(value:Float):Float
 	{
@@ -214,17 +233,8 @@ class Graphic
 	}
 
 	/**
-	 * Change the opacity of the Image, a value from 0 to 1.
-	 */
-	public var maskAlpha(default, set):Float = 0;
-	function set_maskAlpha(value:Float):Float
-	{
-		return maskAlpha = value;
-	}
-
-	/**
 	 * The tinted color of the Image. Use 0xFFFFFF to draw the Image normally.
-	 */
+	*/
 	public var color(default, set):Color;
 	function set_color(value:Color):Color
 	{

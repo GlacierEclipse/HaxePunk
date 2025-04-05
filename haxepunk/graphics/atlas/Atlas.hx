@@ -51,10 +51,10 @@ class Atlas
 	 */
 	public inline function prepareTile(rect:Rectangle, x:Float, y:Float,
 		scaleX:Float, scaleY:Float, angle:Float,
-		color:Color, alpha:Float, maskAlpha:Float,
+		color:Color, alpha:Float, maskColor:Color, maskAlpha:Float,
 		shader:Shader, smooth:Bool, blend:BlendMode, ?clipRect:Rectangle)
 	{
-		_data.prepareTile(rect, x, y, scaleX, scaleY, angle, color, alpha, maskAlpha, shader, smooth, blend, clipRect);
+		_data.prepareTile(rect, x, y, scaleX, scaleY, angle, color, alpha, maskColor, maskAlpha, shader, smooth, blend, clipRect);
 	}
 
 	/**

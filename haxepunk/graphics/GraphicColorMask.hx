@@ -35,7 +35,7 @@ class GraphicColorMask
 
     public function startMask(duration:Float, color:Color = 0xFF0000)
     {
-        entity.graphic.color = color;
+        entity.graphic.maskColor = color;
         if(duration != alphaTween.tweenDuration)
             alphaTween.tween(1.0, 0.0, duration);
         alphaTween.start();
@@ -45,7 +45,7 @@ class GraphicColorMask
     {
         if(alphaTween.active)
             return;
-        entity.graphic.color = color;
+        entity.graphic.maskColor = color;
         if(duration != alphaTween.tweenDuration)
             alphaTween.tween(1.0, 0.0, duration);
         alphaTween.start();

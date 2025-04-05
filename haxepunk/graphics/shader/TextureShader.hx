@@ -51,17 +51,17 @@ precision mediump float;
 attribute vec4 aPosition;
 attribute vec2 aTexCoord;
 attribute vec4 aColor;
-attribute float aMaskAlpha;
+attribute vec4 aMaskColor;
 
 varying vec2 vTexCoord;
 varying vec4 vColor;
-varying float vMaskAlpha;
+varying vec4 vMaskColor;
 uniform mat4 uMatrix;
 
 void main(void) {
 	vColor = vec4(aColor.bgr * aColor.a, aColor.a);
 	vTexCoord = aTexCoord;
-	vMaskAlpha = aMaskAlpha;
+	vMaskColor = vec4(aMaskColor.bgr * aMaskColor.a, aMaskColor.a);
 	gl_Position = uMatrix * aPosition;
 }";
 
@@ -73,7 +73,7 @@ precision mediump float;
 
 varying vec4 vColor;
 varying vec2 vTexCoord;
-varying float vMaskAlpha;
+varying vec4 vMaskColor;
 
 uniform sampler2D uImage0;
 
@@ -81,7 +81,7 @@ void main(void) {
 	vec4 color = texture2D(uImage0, vTexCoord);
 	if (color.a == 0.0)
 		discard;
-	gl_FragColor = mix(color, vColor * color.a, vMaskAlpha);
+	gl_FragColor = mix(color * vColor, vMaskColor, vColor.a * vMaskColor.a);
 }";
 
 public static var defaultMaskAlphaAttribName:String = "aMaskAlpha";
@@ -102,7 +102,7 @@ public static var defaultMaskAlphaAttribName:String = "aMaskAlpha";
 		position.name = "aPosition";
 		texCoord.name = "aTexCoord";
 		color.name = "aColor";
-		maskAlpha.name = "aMaskAlpha";
+		maskColor.name = "aMaskColor";
 	}
 
 	public static var defaultShader(get, null):TextureShader;

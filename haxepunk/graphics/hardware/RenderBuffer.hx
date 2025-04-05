@@ -170,21 +170,23 @@ class RenderBuffer
 	public function prepareVertexAndColor(drawCommand:DrawCommand)
 	{
 		var triangleColor:UInt = 0;
+		var triangleMaskColor:UInt = 0;
 		for (tri in drawCommand.triangles)
 		{
 			triangleColor = tri.color.withAlpha(tri.alpha);
+			triangleMaskColor = tri.maskColor.withAlpha(tri.maskAlpha);
 
 			addVec(tri.tx1, tri.ty1);
 			addInt(triangleColor);
-			addFloat(tri.maskAlpha);
+			addInt(triangleMaskColor);
 
 			addVec(tri.tx2, tri.ty2);
 			addInt(triangleColor);
-			addFloat(tri.maskAlpha);
+			addInt(triangleMaskColor);
 
 			addVec(tri.tx3, tri.ty3);
 			addInt(triangleColor);
-			addFloat(tri.maskAlpha);
+			addInt(triangleMaskColor);
 		}
 	}
 
@@ -206,24 +208,26 @@ class RenderBuffer
 	public function prepareVertexUVandColor(drawCommand:DrawCommand)
 	{
 		var triangleColor:UInt = 0;
+		var triangleMaskColor:UInt = 0;
 		for (tri in drawCommand.triangles)
 		{
 			triangleColor = tri.color.withAlpha(tri.alpha);
+			triangleMaskColor = tri.maskColor.withAlpha(tri.maskAlpha);
 
 			addVec(tri.tx1, tri.ty1);
 			addVec(tri.uvx1, tri.uvy1);
 			addInt(triangleColor);
-			addFloat(tri.maskAlpha);
+			addInt(triangleMaskColor);
 
 			addVec(tri.tx2, tri.ty2);
 			addVec(tri.uvx2, tri.uvy2);
 			addInt(triangleColor);
-			addFloat(tri.maskAlpha);
+			addInt(triangleMaskColor);
 
 			addVec(tri.tx3, tri.ty3);
 			addVec(tri.uvx3, tri.uvy3);
 			addInt(triangleColor);
-			addFloat(tri.maskAlpha);
+			addInt(triangleMaskColor);
 		}
 	}
 }

@@ -25,6 +25,7 @@ private class DrawTriangle
 	public var uvy3:Float = 0;
 	public var color:Color = 0;
 	public var alpha:Float = 0;
+	public var maskColor:Color = 0;
 	public var maskAlpha:Float = 0;
 
 	public var x1(get, never):Float;
@@ -212,7 +213,7 @@ class DrawCommand
 	 * @param color    Vertex color tint
 	 * @param alpha    Vertex alpha value
 	 */
-	public inline function addTriangle(tx1:Float, ty1:Float, uvx1:Float, uvy1:Float, tx2:Float, ty2:Float, uvx2:Float, uvy2:Float, tx3:Float, ty3:Float, uvx3:Float, uvy3:Float, color:Color, alpha:Float, maskAlpha:Float):Void
+	public inline function addTriangle(tx1:Float, ty1:Float, uvx1:Float, uvy1:Float, tx2:Float, ty2:Float, uvx2:Float, uvy2:Float, tx3:Float, ty3:Float, uvx3:Float, uvy3:Float, color:Color, alpha:Float, maskColor:Color, maskAlpha:Float):Void
 	{
 		if (alpha > 0)
 		{
@@ -239,6 +240,7 @@ class DrawCommand
 				data.uvy3 = uvy3;
 				data.color = color;
 				data.alpha = alpha;
+				data.maskColor = maskColor;
 				data.maskAlpha = maskAlpha;
 				addData(data);
 			}

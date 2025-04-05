@@ -165,7 +165,7 @@ class DrawCommandBatch
 		rx:Float, ry:Float, rw:Float, rh:Float,
 		a:Float, b:Float, c:Float, d:Float,
 		tx:Float, ty:Float,
-		color:Color, alpha:Float, maskAlpha:Float, flexibleLayer:Bool = false):Void
+		color:Color, alpha:Float, maskColor:Color, maskAlpha:Float, flexibleLayer:Bool = false):Void
 	{
 		if (alpha > 0)
 		{
@@ -196,14 +196,14 @@ class DrawCommandBatch
 				tx, ty, uvx1, uvy1,
 				xa, yb, uvx2, uvy1,
 				xc, yd, uvx1, uvy2,
-				color, alpha, maskAlpha
+				color, alpha, maskColor, maskAlpha
 			);
 
 			command.addTriangle(
 				xc, yd, uvx1, uvy2,
 				xa, yb, uvx2, uvy1,
 				xa + rh * c, yb + rh * d, uvx2, uvy2,
-				color, alpha, maskAlpha
+				color, alpha, maskColor, maskAlpha
 			);
 		}
 	}
@@ -213,12 +213,12 @@ class DrawCommandBatch
 		tx1:Float, ty1:Float, uvx1:Float, uvy1:Float,
 		tx2:Float, ty2:Float, uvx2:Float, uvy2:Float,
 		tx3:Float, ty3:Float, uvx3:Float, uvy3:Float,
-		color:Color, alpha:Float, maskAlpha:Float, flexibleLayer:Bool = false):Void
+		color:Color, alpha:Float, maskColor:Color, maskAlpha:Float, flexibleLayer:Bool = false):Void
 	{
 		if (alpha > 0)
 		{
 			var command = getDrawCommand(texture, shader, smooth, blend, clipRect, tx1, ty1, tx2, ty2, tx3, ty3, flexibleLayer);
-			command.addTriangle(tx1, ty1, uvx1, uvy1, tx2, ty2, uvx2, uvy2, tx3, ty3, uvx3, uvy3, color, alpha, maskAlpha);
+			command.addTriangle(tx1, ty1, uvx1, uvy1, tx2, ty2, uvx2, uvy2, tx3, ty3, uvx3, uvy3, color, alpha, maskColor, maskAlpha);
 		}
 	}
 }

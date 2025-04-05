@@ -10,14 +10,14 @@ precision mediump float;
 
 attribute vec4 aPosition;
 attribute vec4 aColor;
-attribute float aMaskAlpha;
+attribute vec4 aMaskColor;
 varying vec4 vColor;
-varying float vMaskAlpha;
+varying vec4 vMaskColor;
 uniform mat4 uMatrix;
 
 void main(void) {
 	vColor = vec4(aColor.bgr * aColor.a, aColor.a);
-	vMaskAlpha = aMaskAlpha;
+	vMaskColor = vec4(aMaskColor.bgr * aMaskColor.a, aMaskColor.a);
 	gl_Position = uMatrix * aPosition;
 }";
 
@@ -28,10 +28,10 @@ precision mediump float;
 #endif
 
 varying vec4 vColor;
-varying float vMaskAlpha;
+varying vec4 vMaskColor;
 
 void main(void) {
-	gl_FragColor = mix(vColor, vColor * vColor.a, vMaskAlpha);
+	gl_FragColor = mix(vColor, vMaskColor, vColor.a * vMaskColor.a);
 }";
 
 	public function new(?fragment:String)
@@ -39,7 +39,7 @@ void main(void) {
 		super(VERTEX_SHADER, fragment == null ? FRAGMENT_SHADER : fragment);
 		position.name = "aPosition";
 		color.name = "aColor";
-		maskAlpha.name = "aMaskAlpha";
+		maskColor.name = "aMaskColor";
 	}
 
 	public static var defaultShader(get, null):ColorShader;
