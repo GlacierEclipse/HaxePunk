@@ -865,7 +865,7 @@ class Scene extends Tweener
 		for (n in _types.get(type))
 		{
 			dist = (x - n.x) * (x - n.x) + (y - n.y) * (y - n.y);
-			if (dist < nearDist && Std.is(e, classType))
+			if (dist < nearDist && Std.isOfType(e, classType))
 			{
 				nearDist = dist;
 				near = n;
